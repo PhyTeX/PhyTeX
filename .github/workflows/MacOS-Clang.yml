@@ -40,6 +40,8 @@ jobs:
 
       - name: '🟨 Install packages'
         run: brew install git ${{env.INSTALL_PACKAGES}}
+          && echo 'export PATH="/usr/local/opt/icu4c/bin:$PATH"' >> /Users/runner/.bash_profile
+          && echo 'export PATH="/usr/local/opt/icu4c/sbin:$PATH"' >> /Users/runner/.bash_profile
           
       - name: '🟨 Install packages'
         run: brew link icu4c --force
