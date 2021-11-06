@@ -35,6 +35,8 @@ jobs:
 
       - name: '🟨 Install Qt'
         uses: jurplel/install-qt-action@v2
+        with:
+          modules: qtscript
 
       - name: '🟨 Install packages'
         run: brew install git ${{env.INSTALL_PACKAGES}}
