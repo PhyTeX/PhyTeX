@@ -1,0 +1,65 @@
+name: 'Windows MSYS2'
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { icon: '🟨', sys: mingw32, env: i686, name: MINGW32 }
+          - { icon: '🟦', sys: mingw64, env: x86_64, name: MINGW64 }
+          - { icon: '🟩', sys: ucrt64,  env: ucrt-x86_64, name: UCRT64 }  # Experimental!
+          - { icon: '🟥', sys: clang64, env: clang-x86_64, name: Clang64 } # Experimental!
+    name: '🚧 ${{ matrix.icon }} ${{ matrix.name }}'
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+
+      - name: '🧰 Checkout'
+        uses: actions/checkout@v2.3.5
+
+      - name: '📥 Load .env file'
+        if: hashFiles('.github/workflows/.env/.env') != ''
+        uses: xom9ikk/dotenv@v1.0.2
+        with:
+          path: .github/workflows/.env/
+
+      - name: '📥 Load .env.windows_msys2 file'
+        if: hashFiles('.github/workflows/.env/.env.windows_msys2') != ''
+        uses: xom9ikk/dotenv@v1.0.2
+        with:
+          path: .github/workflows/.env/
+          mode: windows_msys2
+
+      - name: '${{ matrix.icon }} Setup MSYS2'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{matrix.sys}}
+          path-type: minimal
+          release: true
+          update: true
+          install: >-
+            git
+            make
+            mingw-w64-${{matrix.env}}-toolchain
+            mingw-w64-${{matrix.env}}-cmake
+            mingw-w64-${{matrix.env}}-ninja
+            pcre
+            ${{env.INSTALL_PACKAGES}}
+
+      - name: '🔧 Configure'
+        run: cmake -S . -B ${{ env.CMAKE_BUILD_PREFIX }} -D CMAKE_BUILD_TYPE=${{ env.CMAKE_BUILD_TYPE }}  -DBUILD_TESTS=${{ env.BUILD_TESTS }} -DBUILD_DOCS=${{ env.BUILD_DOCS }} -DBUILD_EXAMPLES=${{ env.BUILD_EXAMPLES }}
+
+      - name: '⚙️ Build'
+        run: cmake --build ${{ env.CMAKE_BUILD_PREFIX }} --config ${{ env.CMAKE_BUILD_TYPE }} --parallel ${{ env.CMAKE_NUMBER_JOBS }}
+
+      - name: '🧪 Run tests'
+        working-directory: ${{ env.CMAKE_BUILD_PREFIX }}
+        run: ctest -C ${{ env.CMAKE_BUILD_TYPE }} --parallel ${{ env.CMAKE_NUMBER_JOBS }} -VV --output-on-failure

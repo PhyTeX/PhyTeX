@@ -1,0 +1,56 @@
+name: 'Linux GCC'
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { icon: '🟨', cc: gcc-9, cxx: g++-9, name: 'GCC 9' }
+          - { icon: '🟦', cc: gcc-10, cxx: g++-10, name: 'GCC 10' }
+    name: '🚧 ${{ matrix.icon }} ${{ matrix.name }}'
+
+    steps:
+
+      - name: '🧰 Checkout'
+        uses: actions/checkout@v2.3.5
+
+      - name: '📥 Load .env file'
+        if: hashFiles('.github/workflows/.env/.env') != ''
+        uses: xom9ikk/dotenv@v1.0.2
+        with:
+          path: .github/workflows/.env
+
+      - name: '📥 Load .env.linux_gcc file'
+        if: hashFiles('.github/workflows/.env/.env.linux_gcc') != ''
+        uses: xom9ikk/dotenv@v1.0.2
+        with:
+          path: .github/workflows/.env
+          mode: linux_gcc
+
+      - name: '${{ matrix.icon }} Setup CMake'
+        uses: jwlawson/actions-setup-cmake@v1.11
+        with:
+          cmake-version: '${{env.CMAKE_VERSION}}'
+          github-api-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: '${{ matrix.icon }} Install packages'
+        run: sudo apt-get install git ${{env.INSTALL_PACKAGES}}
+
+      - name: '🔧 Configure'
+        env:
+          CC: ${{matrix.cc}}
+          CXX: ${{matrix.cxx}}
+        run: cmake -S . -B ${{ env.CMAKE_BUILD_PREFIX }} -D CMAKE_BUILD_TYPE=${{ env.CMAKE_BUILD_TYPE }}  -DBUILD_TESTS=${{ env.BUILD_TESTS }} -DBUILD_DOCS=${{ env.BUILD_DOCS }} -DBUILD_EXAMPLES=${{ env.BUILD_EXAMPLES }}
+
+      - name: '⚙️ Build'
+        run: cmake --build ${{ env.CMAKE_BUILD_PREFIX }} --config ${{ env.CMAKE_BUILD_TYPE }} --parallel ${{ env.CMAKE_NUMBER_JOBS }}
+
+      - name: '🧪 Run tests'
+        working-directory: ${{ env.CMAKE_BUILD_PREFIX }}
+        run: ctest -C ${{ env.CMAKE_BUILD_TYPE }} --parallel ${{ env.CMAKE_NUMBER_JOBS }} -VV --output-on-failure

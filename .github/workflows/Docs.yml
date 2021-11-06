@@ -1,0 +1,73 @@
+name: 'Docs'
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  docs:
+    runs-on: macos-latest
+    name: '📚 Docs'
+
+    steps:
+
+    - name: '🧰 Checkout'
+      uses: actions/checkout@v2.3.5
+
+    - name: '📥 Load .env file'
+      if: hashFiles('.github/workflows/.env/.env') != ''
+      uses: xom9ikk/dotenv@v1.0.2
+      with:
+        path: .github/workflows/.env/
+
+    - name: '📥 Load .env.docs file'
+      if: hashFiles('.github/workflows/.env/.env.docs') != ''
+      uses: xom9ikk/dotenv@v1.0.2
+      with:
+        path: .github/workflows/.env/
+        mode: docs
+
+    - name: '🟨 Install required packages'
+      if: ${{github.event_name == 'pull_request' || github.event_name == 'push'}}
+      run: brew install doxygen
+        && brew install mscgen
+        && brew install --cask dia
+        && pip3 install sphinx
+        && pip3 install sphinx-rtd-theme
+        && pip3 install sphinx-sitemap
+        && pip3 install sphinxcontrib-moderncmakedomain
+        && pip3 install breathe
+
+    - name: '🟨 Install Latex'
+      if: ${{github.event_name == 'push'}}
+      run: brew install texlive
+           && brew install graphviz
+
+    - name: '🟨 Setup CMake'
+      uses: jwlawson/actions-setup-cmake@v1.11
+      with:
+        cmake-version: '${{env.CMAKE_VERSION}}'
+        github-api-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: '🔧 Configure'
+      run: cmake -S . -B ${{ env.CMAKE_BUILD_PREFIX }} -D CMAKE_BUILD_TYPE=${{ env.CMAKE_BUILD_TYPE }} -DBUILD_TESTS=${{ env.BUILD_TESTS }} -DBUILD_DOCS=${{ env.BUILD_DOCS }} -DBUILD_EXAMPLES=${{ env.BUILD_EXAMPLES }}
+
+    - name: '⚙️ Build'
+      run: cmake --build ${{ env.CMAKE_BUILD_PREFIX }} --config ${{ env.CMAKE_BUILD_TYPE }} --parallel ${{ env.CMAKE_NUMBER_JOBS }} --target docs
+
+    - name: '📥 Install'
+      if: ${{github.event_name == 'push'}}
+      run: cmake --install ${{ env.CMAKE_BUILD_PREFIX }} --prefix ${{ github.workspace }}/bin --strip
+        && touch ${{ github.workspace }}/bin/docs/html/.nojekyll
+        && mv ${{ github.workspace }}/build/docs/doxygen/latex/refman.pdf ${{ github.workspace }}/bin/docs/html/Manual.pdf
+
+    - name: '🎉 Deploy'
+      if: ${{github.event_name == 'push'}}
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: ${{ github.workspace }}/bin/docs/html
+        SINGLE_COMMIT: true
