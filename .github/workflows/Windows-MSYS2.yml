@@ -54,6 +54,7 @@ jobs:
             mingw-w64-${{matrix.env}}-python 
             mingw-w64-${{matrix.env}}-python-pip
             mingw-w64-${{matrix.env}}-qt5
+            mingw-w64-${{matrix.env}}-boost
             pcre
             ${{env.INSTALL_PACKAGES}}
             
