@@ -53,7 +53,10 @@ jobs:
             mingw-w64-${{matrix.env}}-ninja
             pcre
             ${{env.INSTALL_PACKAGES}}
-
+            
+      - name: '${{ matrix.icon }} Install with pip'
+        run: pip install pandoc
+        
       - name: '🔧 Configure'
         run: cmake -S . -B ${{ env.CMAKE_BUILD_PREFIX }} -D CMAKE_BUILD_TYPE=${{ env.CMAKE_BUILD_TYPE }}  -DBUILD_TESTS=${{ env.BUILD_TESTS }} -DBUILD_DOCS=${{ env.BUILD_DOCS }} -DBUILD_EXAMPLES=${{ env.BUILD_EXAMPLES }}
 
