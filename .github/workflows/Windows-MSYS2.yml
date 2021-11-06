@@ -53,6 +53,7 @@ jobs:
             mingw-w64-${{matrix.env}}-ninja
             mingw-w64-${{matrix.env}}-python 
             mingw-w64-${{matrix.env}}-python-pip
+            mingw-w64-${{matrix.env}}-qt5
             pcre
             ${{env.INSTALL_PACKAGES}}
             
