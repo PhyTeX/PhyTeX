@@ -51,6 +51,8 @@ jobs:
             mingw-w64-${{matrix.env}}-toolchain
             mingw-w64-${{matrix.env}}-cmake
             mingw-w64-${{matrix.env}}-ninja
+            mingw-w64-${{matrix.env}}-python 
+            mingw-w64-${{matrix.env}}-python-pip
             pcre
             ${{env.INSTALL_PACKAGES}}
             
