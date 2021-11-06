@@ -48,7 +48,7 @@ jobs:
         run: choco install git ${{env.INSTALL_PACKAGES}}
 
       - name: '🔧 Configure'
-        run: cmake -S ${{ github.workspace }} -B ${{ env.CMAKE_BUILD_PREFIX }} -A ${{matrix.env}} -T host=${{matrix.toolset}} -DBUILD_TESTS=${{ env.BUILD_TESTS }} -DBUILD_DOCS=${{ env.BUILD_DOCS }} -DBUILD_EXAMPLES=${{ env.BUILD_EXAMPLES }}
+        run: cmake -S ${{ github.workspace }} -B ${{ env.CMAKE_BUILD_PREFIX }} -A ${{matrix.env}} -T host=${{matrix.toolset}} -DBUILD_TESTS=${{ env.BUILD_TESTS }} -DBUILD_DOCS=${{ env.BUILD_DOCS }} -DBUILD_EXAMPLES=${{ env.BUILD_EXAMPLES }} -DWITH_MIKTEX_DOC=OFF
 
       - name: '⚙️ Build'
         run: cmake --build ${{ env.CMAKE_BUILD_PREFIX }} --config ${{ env.CMAKE_BUILD_TYPE }} --parallel ${{ env.CMAKE_NUMBER_JOBS }}
