@@ -48,6 +48,7 @@ jobs:
       - name: '🟨 Install packages'
         run: brew install git ${{env.INSTALL_PACKAGES}}
           && echo 'export PATH="/usr/local/opt/qt@5/bin:$PATH"' >> /Users/runner/.bash_profile
+          && brew link icu4c --force
 
       - name: '🔧 Configure'
         env:

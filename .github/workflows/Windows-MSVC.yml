@@ -51,6 +51,12 @@ jobs:
 
       - name: '${{ matrix.icon }} Install package'
         run: choco install git ${{env.INSTALL_PACKAGES}}
+        
+      - name: '${{ matrix.icon }} Install boost'
+        uses: MarkusJx/install-boost@v2.0.0
+        id: install-boost
+        with:
+          boost_version: 1.76.0
 
       - name: '🔧 Configure'
         run: cmake -S ${{ github.workspace }} -B ${{ env.CMAKE_BUILD_PREFIX }} -A ${{matrix.env}} -T host=${{matrix.toolset}} -DBUILD_TESTS=${{ env.BUILD_TESTS }} -DBUILD_DOCS=${{ env.BUILD_DOCS }} -DBUILD_EXAMPLES=${{ env.BUILD_EXAMPLES }} -DWITH_MIKTEX_DOC=OFF
