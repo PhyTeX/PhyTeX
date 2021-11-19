@@ -40,7 +40,6 @@ jobs:
         
       - name: '🟨 Install packages'
         run: brew install git ${{env.INSTALL_PACKAGES}}
-          && brew remove icu4c
           && brew install icu4c
           && brew link icu4c --force
           && echo 'export PATH="/usr/local/opt/icu4c/bin:$PATH"' >> /Users/runner/.bash_profile
