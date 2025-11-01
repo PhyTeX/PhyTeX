@@ -636,11 +636,6 @@
   MIKTEX_LOCALFONTS2_CONF
 //#endif
 
-#define MIKTEX_PATH_HUNSPELL_DICT_DIR           \
-  "hunspell"                                    \
-  MIKTEX_PATH_DIRECTORY_DELIMITER_STRING        \
-  "dicts"
-
 #define MIKTEXDIRECT_PREFIX_DIR "texmf"
 
 /* _________________________________________________________________________

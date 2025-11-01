@@ -76,7 +76,6 @@ if(${MIKTEX_TARGET_SYSTEM_TAG} STREQUAL "windows-x64")
         windows-x64/miktex-gregorio-bin-x64.tpm.in
         windows-x64/miktex-gsf2pk-bin-x64.tpm.in
         windows-x64/miktex-harfbuzz-bin-x64.tpm.in
-        windows-x64/miktex-hunspell-bin-x64.tpm.in
         windows-x64/miktex-jpeg-bin-x64.tpm.in
         windows-x64/miktex-kpathsea-bin-x64.tpm.in
         windows-x64/miktex-lacheck-bin-x64.tpm.in

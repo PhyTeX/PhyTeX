@@ -54,7 +54,6 @@
 
 ### Fixed issues
 
-- [1540](https://github.com/MiKTeX/miktex/issues/1540): Can't install on OpenSUSE Tumbleweed - requires hunspell 1.6
 - [1562](https://github.com/MiKTeX/miktex/issues/1562): libzzip-0.so.13 and opensuse leap 15.6 64 bit
 - [1571](https://github.com/MiKTeX/miktex/issues/1571): Fedora 41
 
@@ -922,7 +921,6 @@ The `Check for updates` operation is much faster now.
 * gmp 6.1.2
 * graphite2 1.3.12
 * HarfBuzz 2.0.2
-* hunspell 1.6.2
 * jpeg 9c
 * libcurl 7.61.1
 * liblzma 5.2.4

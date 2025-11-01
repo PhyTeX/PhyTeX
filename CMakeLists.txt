@@ -320,12 +320,6 @@ option(
     ${use_system_harfbuzz_icu_default}
 )
 
-option(
-    USE_SYSTEM_HUNSPELL
-    "Use the system Hunspell spell checker library."
-    ${MIKTEX_UNIX_ALIKE}
-)
-
 # we always depend on the system ICU development files
 set(
     USE_SYSTEM_ICU
@@ -1188,10 +1182,6 @@ if(USE_SYSTEM_HARFBUZZ_ICU)
     find_package(HARFBUZZ_ICU REQUIRED)
 endif()
 
-if(USE_SYSTEM_HUNSPELL)
-    find_package(HUNSPELL REQUIRED)
-endif()
-
 if(USE_SYSTEM_ICU)
     find_package(ICU REQUIRED COMPONENTS i18n uc)
 endif()
@@ -1885,22 +1875,6 @@ if(USE_SYSTEM_HARFBUZZ_ICU)
     )
 else()
     #add_subdirectory(${MIKTEX_REL_HARFBUZZ_DIR})
-endif()
-
-if(USE_SYSTEM_HUNSPELL)
-    get_filename_component(suffix ${HUNSPELL_LIBRARY} EXT)
-    if (suffix STREQUAL CMAKE_SHARED_LIBRARY_SUFFIX)
-        add_library(MiKTeX::Imported::HUNSPELL SHARED IMPORTED)
-    else()
-        add_library(MiKTeX::Imported::HUNSPELL STATIC IMPORTED)
-    endif()
-    set_target_properties(MiKTeX::Imported::HUNSPELL
-        PROPERTIES
-        IMPORTED_LOCATION "${HUNSPELL_LIBRARY}"
-        INTERFACE_INCLUDE_DIRECTORIES "${HUNSPELL_INCLUDE_DIRS}"
-    )
-else()
-    add_subdirectory(${MIKTEX_REL_HUNSPELL_DIR})
 endif()
 
 if(USE_SYSTEM_LOG4CXX)
