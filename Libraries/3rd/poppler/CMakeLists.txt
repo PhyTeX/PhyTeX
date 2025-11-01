@@ -395,7 +395,7 @@ list(APPEND poppler_sources
 add_subdirectory(shared)
 
 if(WITH_UI_QT)
-    add_subdirectory(qt${QT_SERIES}/shared)
+    add_subdirectory(qt6/shared)
 endif()
 
 set(poppler_target_library ${poppler_dll_name})

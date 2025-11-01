@@ -127,7 +127,7 @@ foreach(l ${MIKTEX_TRANSLATION_DONE_LOCALES})
   )
 endforeach()
 
-get_target_property(LUPDATE_EXECUTABLE Qt${QT_SERIES}::lupdate LOCATION)
+get_target_property(LUPDATE_EXECUTABLE Qt6::lupdate LOCATION)
 
 add_custom_target(gen-ui-translations
   COMMAND
@@ -137,11 +137,7 @@ add_custom_target(gen-ui-translations
 )
 set_property(TARGET gen-ui-translations PROPERTY FOLDER ${MIKTEX_CURRENT_FOLDER}/gen)
 
-if(QT_SERIES STREQUAL "5")
-  qt5_add_translation(qm_files ${translations})
-else()
-  qt_add_translation(qm_files ${translations})
-endif()
+qt_add_translation(qm_files ${translations})
 
 configure_file(
   translations.qrc.in
@@ -153,17 +149,9 @@ set(${ui_qt_dll_name}_qrc_files
   mikuiqt.qrc
 )
 
-if(QT_SERIES STREQUAL "5")
-  qt5_wrap_ui(${ui_qt_dll_name}_ui_headers ${${ui_qt_dll_name}_ui_files})
-else()
-  qt_wrap_ui(${ui_qt_dll_name}_ui_headers ${${ui_qt_dll_name}_ui_files})
-endif()
+qt_wrap_ui(${ui_qt_dll_name}_ui_headers ${${ui_qt_dll_name}_ui_files})
 
-if(QT_SERIES STREQUAL "5")
-  qt5_add_resources(${ui_qt_dll_name}_rcc_sources ${${ui_qt_dll_name}_qrc_files})
-else()
-  qt_add_resources(${ui_qt_dll_name}_rcc_sources ${${ui_qt_dll_name}_qrc_files})
-endif()
+qt_add_resources(${ui_qt_dll_name}_rcc_sources ${${ui_qt_dll_name}_qrc_files})
 
 add_library(${ui_qt_dll_name} SHARED
   ${${ui_qt_dll_name}_sources}
@@ -196,21 +184,14 @@ target_link_libraries(${ui_qt_dll_name}
     ${locale_dll_name}
     ${mpm_dll_name}
     ${setup_dll_name}
-    Qt${QT_SERIES}::Gui
-    Qt${QT_SERIES}::Widgets
+    Qt6::Gui
+    Qt6::Widgets
 )
 
 if(MIKTEX_NATIVE_WINDOWS)
   target_link_libraries(${ui_qt_dll_name}
     PRIVATE
       Secur32
-  )
-endif()
-
-if(MIKTEX_NATIVE_WINDOWS AND QT_SERIES STREQUAL "5")
-  target_link_libraries(${ui_qt_dll_name}
-    PRIVATE
-      Qt${QT_SERIES}::WinExtras
   )
 endif()
 

@@ -54,7 +54,6 @@
 <!ENTITY TeXAndFriends "<application>TeX</application>&nbsp;&amp;&nbsp;Friends">
 <!ENTITY TeXMF "&TeX;MF">
 <!ENTITY TeXnFriends "&TeX;&nbsp;&amp;&nbsp;Friends">
-<!ENTITY TeXworks "<application>TeXworks</application>">
 <!ENTITY Texinfo "<application>Texinfo</application>">
 <!ENTITY URL "<acronym>URL</acronym>">
 <!ENTITY URW "<acronym>URW</acronym>">

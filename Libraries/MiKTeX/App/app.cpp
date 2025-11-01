@@ -978,17 +978,7 @@ void Application::SecurityRisk(const string& s)
 void Application::InvokeEditor(const PathName& editFileName, int editLineNumber, FileType editFileType, const PathName& transcriptFileName) const
 {
     string defaultEditor;
-
-    PathName texworks;
-    if (pimpl->session->FindFile(MIKTEX_TEXWORKS_EXE, FileType::EXE, texworks))
-    {
-        defaultEditor = Q_(texworks);
-        defaultEditor += " -p=%l \"%f\"";
-    }
-    else
-    {
-        defaultEditor = "notepad \"%f\"";
-    }
+    defaultEditor = "notepad \"%f\"";
 
     if (!pimpl->session->IsAdminMode())
     {

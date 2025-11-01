@@ -116,7 +116,6 @@ if(${MIKTEX_TARGET_SYSTEM_TAG} STREQUAL "windows-x64")
         windows-x64/miktex-tex4ht-bin-x64.tpm.in
         windows-x64/miktex-texify-bin-x64.tpm.in
         windows-x64/miktex-texware-bin-x64.tpm.in
-        windows-x64/miktex-texworks-bin-x64.tpm.in
         windows-x64/miktex-ttf2pk2-bin-x64.tpm.in
         windows-x64/miktex-uriparser-bin-x64.tpm.in
         windows-x64/miktex-web-bin-x64.tpm.in

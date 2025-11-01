@@ -143,39 +143,6 @@ vector<ShellLinkData> winSetupServiceImpl::GetShellLinks()
                 0,
         },
 
-            // "TeXworks"
-  {
-    false,
-    false,
-    "",
-    "TeXworks",
-    EXEPATH(MIKTEX_TEXWORKS_EXE),
-    LD_USESHOWCMD | LD_USEDESC,
-    T_("TeXworks is a TeX front-end program."),
-    "",
-    "",
-    0,
-    "",
-    SW_SHOWNORMAL,
-    0,
-  },
-
-  // "Previewer"
-  {
-    false,
-    true,
-    "",
-    "DVI Previewer (Yap)",
-    EXEPATH(MIKTEX_YAP_EXE),
-    LD_USESHOWCMD,
-    "",
-    "",
-    "",
-    0,
-    "",
-    SW_SHOWNORMAL,
-    0,
-  },
 
   // "Maintenance->Settings"
   {

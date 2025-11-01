@@ -417,9 +417,6 @@ const vector<FileLink> LinksManager::miktexFileLinks =
   { MIKTEX_TANGLE_EXE, { "tangle" } },
   { MIKTEX_PREFIX "tex2aspc" MIKTEX_EXE_FILE_SUFFIX, { "tex2aspc" } },
   { MIKTEX_TEX4HT_EXE, { "tex4ht" } },
-#if defined(MIKTEX_QT)
-  { MIKTEX_TEXWORKS_EXE, { "texworks" } },
-#endif
   { MIKTEX_TEX_EXE, { "tex", "initex", "virtex" } },
   { MIKTEX_TFTOPL_EXE, { "tftopl" } },
   { MIKTEX_TTF2AFM_EXE, { "ttf2afm" } },

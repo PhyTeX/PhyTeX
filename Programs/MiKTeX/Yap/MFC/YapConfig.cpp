@@ -117,16 +117,7 @@ static string DefaultInverseSearchTemplate()
 {
   shared_ptr<Session> session = MIKTEX_SESSION();
   string inverseSearchTemplate;
-  PathName texworks;
-  if (session->FindFile(MIKTEX_TEXWORKS_EXE, FileType::EXE, texworks))
-  {
-    inverseSearchTemplate = Q_(texworks);
-    inverseSearchTemplate += " -p=%l \"%f\"";
-  }
-  else
-  {
-    inverseSearchTemplate = "notepad \"%f\"";
-  }
+  inverseSearchTemplate = "notepad \"%f\"";
   return inverseSearchTemplate;
 } void
 YapConfig::Load()

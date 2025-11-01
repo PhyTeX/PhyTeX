@@ -611,8 +611,6 @@ option(
 if(WITH_ASYMPTOTE AND MIKTEX_NATIVE_WINDOWS)
     set(USE_SYSTEM_OPENGL TRUE)
 endif()
-
-set(QT_SERIES "6" CACHE STRING "The Qt series to be used.")
   
 ###############################################################################
 ## fixed values
@@ -1109,29 +1107,14 @@ if(WITH_UI_QT)
         UiTools
         Widgets
         Xml
+        Core5Compat
     )
-    if(QT_SERIES EQUAL 6)
-        list(APPEND required_qt_components
-            Core5Compat
-        )
-    endif()
-    if(QT_SERIES EQUAL 5)
-        list(APPEND required_qt_components
-            Script
-            ScriptTools
-        )
-    endif()
-    if(MIKTEX_NATIVE_WINDOWS AND QT_SERIES EQUAL 5)
-        list(APPEND required_qt_components
-            WinExtras
-        )
-    endif()
     if(MIKTEX_UNIX_ALIKE AND NOT MIKTEX_MACOS_BUNDLE)
         list(APPEND required_qt_components
             DBus
         )
     endif()
-    find_package(Qt${QT_SERIES} REQUIRED ${required_qt_components})
+    find_package(Qt6 REQUIRED ${required_qt_components})
 endif()
 
 if(USE_SYSTEM_APR)
@@ -1262,7 +1245,7 @@ if(USE_SYSTEM_POPPLER)
 endif()
 
 if(USE_SYSTEM_POPPLER_QT AND WITH_UI_QT)
-    find_package(POPPLER_QT${QT_SERIES} REQUIRED)
+    find_package(POPPLER_QT6 REQUIRED)
 endif()
 
 if(USE_SYSTEM_URIPARSER)
@@ -2068,7 +2051,7 @@ else()
 endif()
 
 if(USE_SYSTEM_POPPLER_QT AND WITH_UI_QT)
-    get_filename_component(suffix ${POPPLER_QT${QT_SERIES}_LIBRARY} EXT)
+    get_filename_component(suffix ${POPPLER_QT6_LIBRARY} EXT)
     if (suffix STREQUAL CMAKE_SHARED_LIBRARY_SUFFIX)
         add_library(MiKTeX::Imported::POPPLER_QT SHARED IMPORTED)
     else()
@@ -2076,8 +2059,8 @@ if(USE_SYSTEM_POPPLER_QT AND WITH_UI_QT)
     endif()
     set_target_properties(MiKTeX::Imported::POPPLER_QT
         PROPERTIES
-        IMPORTED_LOCATION "${POPPLER_QT${QT_SERIES}_LIBRARY}"
-        INTERFACE_INCLUDE_DIRECTORIES "${POPPLER_QT${QT_SERIES}_INCLUDE_DIRS}"
+        IMPORTED_LOCATION "${POPPLER_QT6_LIBRARY}"
+        INTERFACE_INCLUDE_DIRECTORIES "${POPPLER_QT6_INCLUDE_DIRS}"
     )
 else()
     #add_subdirectory(${MIKTEX_REL_POPPLER_DIR})
@@ -2243,7 +2226,6 @@ if(WITH_TPMS)
 endif()
 
 if(WITH_UI_QT)
-    add_subdirectory(${MIKTEX_REL_TEXWORKS_DIR})
     add_subdirectory(${MIKTEX_REL_UI_QT_DIR})
 endif()
 
@@ -2280,10 +2262,6 @@ endif()
 
 if(NOT HAVE_REGEXEC)
     add_subdirectory(${MIKTEX_REL_REGEX_DIR})
-endif()
-
-if(WITH_UI_QT)
-    add_subdirectory(${MIKTEX_REL_CONSOLE_QT_DIR})
 endif()
 
 ###############################################################################
